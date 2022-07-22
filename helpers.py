@@ -3,9 +3,6 @@ import sqlite3
 from flask import render_template, request, redirect, session
 from functools import wraps
 
-connection = sqlite3.connect("notesapp.db", check_same_thread=False)  # Connect to the database "notesapp.db"
-cursor = connection.cursor()  # Create a cursor that will allow us to execute SQL queries on notesapp.db
-
 def login_required(f):
     """
     Decorate routes to require login.
@@ -18,6 +15,34 @@ def login_required(f):
             return redirect("/login")
         return f(*args, **kwargs)
     return decorated_function
+
+# Connect to the database "notesapp.db"
+connection = sqlite3.connect("notesapp.db", check_same_thread=False)
+
+# Create a cursor instance which allows us to execute SQL queries on "notesapp.db"
+cursor = connection.cursor()
+
+# Silence any error that may arise when creating tables
+# (in this case recreating a table that already exists)
+try:
+    cursor.execute("""CREATE TABLE users (
+        id INTEGER PRIMARY KEY,
+        username TEXT UNIQUE NOT NULL,
+        hash TEXT NOT NULL
+    )""")
+    connection.commit()
+
+    cursor.execute("""CREATE TABLE notes (
+        id INTEGER PRIMARY KEY,
+        user_id INTEGER,
+        title TEXT,
+        content TEXT,
+        last_mod_date DATETIME,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )""")
+    connection.commit()
+except:
+    pass
 
 def get_username():
     """Get username of logged in user"""
@@ -32,6 +57,7 @@ def get_username():
 def add_note(title, content):
     """Add note to database"""
 
+    # Connect to the database
     with connection:
         timestamp_obj = datetime.datetime.now()
         timestamp = timestamp_obj.strftime("%Y:%m:%d %H:%M:%S")
@@ -56,6 +82,7 @@ def get_note(id):
 def edit_note(id, title, content):
     """Edit note and update database"""
 
+    # Connect to the database
     with connection:
         timestamp_obj = datetime.datetime.now()
         timestamp = timestamp_obj.strftime("%Y:%m:%d %H:%M:%S")
@@ -66,5 +93,6 @@ def edit_note(id, title, content):
 def delete_note(id):
     """Delete a note from database"""
 
+    # Connect to the database
     with connection:
         cursor.execute("DELETE FROM notes WHERE id = ?", (id,))
