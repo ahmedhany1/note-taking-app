@@ -24,14 +24,6 @@ section {
     text-align: center;
 }
 
-#notes-cards {
-    display: grid;
-    grid-template-columns: repeat(4, 18rem);
-    grid-auto-rows: 16vh;
-    column-gap: 60px;
-    row-gap: 60px;
-}
-
 .card-text.index {
     white-space: nowrap;
     overflow: hidden;
@@ -53,7 +45,80 @@ textarea.card-text {
     resize: none;
 }
 
-.row:last-child .card {
-    height: 100%;
-    justify-content: center;
+a[href="/add"],
+a[href="/add"]:hover {
+    color: white;
+}
+
+a[href="/add"] svg {
+    fill: white;
+}
+
+h2 {
+    text-align: center;
+}
+
+h2 a {
+    text-decoration: none;
+    color: black;
+}
+
+h2 a:hover {
+    color: #0a58ca !important;
+}
+
+body.bg-dark h1,
+body.bg-dark h2 {
+    color: rgb(248, 249, 250);
+}
+
+body.bg-dark h2 a {
+    color: rgb(248, 249, 250);
+}
+
+.link-svg-container {
+    display: inline-block;
+    position: relative;
+    top: -2px;
+}
+
+.youtube.link-svg-container {
+    top: 0px;
+}
+
+#youtube-link:hover {
+    color: red !important;
+}
+
+.card.btn-light.bg-dark:hover {
+    border-color: #6c757d !important;
+}
+
+.dropdown-item.text-light:hover {
+    background-color: #6c757d;
+}
+
+body.bg-dark input::placeholder,
+body.bg-dark textarea::placeholder {
+    color: rgb(180, 180, 180);
+}
+
+.nav-link[href='/login'].active,
+.nav-link[href='/login']:hover,
+.nav-link[href='/register'].active,
+.nav-link[href='/register']:hover {
+    color: #003e99;
+}
+
+/* nav-links in dark mode */
+body.bg-dark .nav-link[href='/login'],
+body.bg-dark .nav-link[href='/register'] {
+    color: #5097ff;
+}
+
+body.bg-dark .nav-link[href='/login'].active,
+body.bg-dark .nav-link[href='/login']:hover,
+body.bg-dark .nav-link[href='/register'].active,
+body.bg-dark .nav-link[href='/register']:hover {
+    color: #9cc4ff;
 }
